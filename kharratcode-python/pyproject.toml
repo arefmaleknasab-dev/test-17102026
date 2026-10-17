@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kharratcode"
+version = "1.0.0"
+description = "خراط‌کد — شبیه‌ساز و جی‌کدساز خراطی دومحور CNC (نسخه پایتون)"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+
+[project.optional-dependencies]
+desktop = ["pywebview>=5.0"]
+dev = ["pyinstaller>=6.0"]
+
+[project.scripts]
+kharratcode = "kharratcode.app:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["kharratcode*"]
+
+[tool.setuptools.package-data]
+kharratcode = ["ui/*.html"]
