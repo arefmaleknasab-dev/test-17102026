@@ -1,0 +1,244 @@
+@import "tailwindcss";
+@import "./preferences.css";
+
+@theme {
+  --font-body: "Vazirmatn", "Segoe UI", sans-serif;
+  --font-display: "Lalezar", "Vazirmatn", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-bg: #14100b;
+  --color-panel: #1d1710;
+  --color-panel2: #251d13;
+  --color-panel3: #2d2318;
+  --color-edge: #3b2f20;
+  --color-edge2: #4d3d28;
+  --color-ink: #f1e7d4;
+  --color-mute: #a8946f;
+  --color-dim: #6f6047;
+
+  --color-brass: #e3a94e;
+  --color-brass2: #f3c26b;
+  --color-copper: #e0703c;
+  --color-teal: #45b394;
+  --color-steel: #9aa7b4;
+  --color-danger: #d95848;
+  --color-ok: #8fbf5a;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background:
+    radial-gradient(1100px 500px at 85% -10%, rgba(227, 169, 78, 0.07), transparent 60%),
+    radial-gradient(900px 600px at 0% 110%, rgba(69, 179, 148, 0.05), transparent 60%),
+    var(--color-bg);
+  color: var(--color-ink);
+  overflow: hidden;
+}
+
+::selection {
+  background: rgba(227, 169, 78, 0.35);
+}
+
+/* ---------- scrollbars ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4d3d28 transparent;
+}
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #4d3d28;
+  border-radius: 8px;
+  border: 2px solid #1d1710;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- form controls ---------- */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.field-input {
+  @apply w-full rounded-md border border-edge bg-bg/70 px-2 py-1.5 text-[13px] font-medium text-ink outline-none transition-colors;
+}
+.field-input:focus {
+  border-color: rgba(227, 169, 78, 0.7);
+  box-shadow: 0 0 0 3px rgba(227, 169, 78, 0.12);
+}
+
+/* custom scrubber — always LTR, thumb and fill painted together */
+.scrub-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  cursor: pointer;
+  touch-action: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.scrub-track:focus-visible .scrub-rail {
+  box-shadow: 0 0 0 3px rgba(227, 169, 78, 0.25);
+}
+.scrub-rail {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: #3b2f20;
+}
+.scrub-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #b57f2e, var(--color-brass));
+  pointer-events: none;
+}
+.scrub-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-brass2);
+  border: 3px solid #1d1710;
+  box-shadow: 0 0 8px rgba(227, 169, 78, 0.6);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: scale 0.12s ease;
+}
+.scrub-track:hover .scrub-thumb,
+.scrub-track:active .scrub-thumb {
+  scale: 1.2;
+}
+.scrub-tip {
+  position: absolute;
+  bottom: 24px;
+  left: 0%;
+  transform: translateX(-50%);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--color-edge2);
+  background: rgba(29, 23, 16, 0.95);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-brass2);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 5;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  @apply inline-flex items-center gap-1.5 rounded-md border border-edge bg-panel2 px-2.5 py-1.5 text-[12.5px] font-semibold text-ink/90 transition-all select-none;
+}
+.btn:hover:not(:disabled) {
+  border-color: var(--color-edge2);
+  background: var(--color-panel3);
+  transform: translateY(-1px);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.btn-brass {
+  @apply border-brass/60 bg-brass text-[#241a0c];
+}
+.btn-brass:hover:not(:disabled) {
+  @apply border-brass2 bg-brass2;
+  box-shadow: 0 4px 18px rgba(227, 169, 78, 0.35);
+}
+.btn-teal {
+  @apply border-teal/50 text-teal;
+}
+.btn-teal:hover:not(:disabled) {
+  @apply border-teal bg-teal/10;
+  box-shadow: 0 4px 18px rgba(69, 179, 148, 0.25);
+}
+
+.chip-toggle {
+  @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-all select-none;
+}
+
+/* ---------- gcode ---------- */
+.gc-line {
+  @apply block whitespace-pre px-3 py-[1px] font-mono text-[11.5px] leading-[1.55] border-r-2 border-transparent;
+}
+.gc-tok-g { color: var(--color-brass); font-weight: 700; }
+.gc-tok-m { color: var(--color-copper); font-weight: 700; }
+.gc-tok-ax { color: #63c8ac; }
+.gc-tok-f { color: #c9b78d; }
+.gc-tok-c { color: #77684c; font-style: italic; }
+.gc-tok-n { color: #6f6047; }
+.gc-tok-d { color: #8b7c5f; }
+
+/* ---------- animations ---------- */
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 14px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+.toast-anim {
+  animation: toast-in 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes fade-slide {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.anim-in {
+  animation: fade-slide 0.3s ease both;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(143, 191, 90, 0.8); }
+  50% { opacity: 0.4; box-shadow: 0 0 2px rgba(143, 191, 90, 0.3); }
+}
+.dot-live {
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow {
+  animation: spin-slow 2.4s linear infinite;
+}
+
+@keyframes spin360 {
+  to { transform: rotate(360deg); }
+}
+
+/* نقاط تعاملی — با رفتن نشانگر موس، سفید می‌شوند */
+.pt-hover {
+  cursor: pointer;
+  transition: fill 0.12s ease, stroke 0.12s ease;
+}
+.pt-hover:hover {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
